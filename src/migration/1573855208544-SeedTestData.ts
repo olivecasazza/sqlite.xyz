@@ -31,14 +31,13 @@ export class SeedTestData1573855208544 implements MigrationInterface {
           return await createFakeMetrics(queryRunner, dataset);
         }),
       );
-      
     } catch (error) {
       console.error(error);
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    // delete any users with the role "TEST_USER"
+    // delete any users with the role "TEST_USER"~
     // also deletes any associated rows in other tables
     const userRepository = await getRepository(User);
     return await userRepository.delete({

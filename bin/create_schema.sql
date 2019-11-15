@@ -1,7 +1,6 @@
 -- --------------
 -- ENTITY MODELS
 -- --------------
-
 create table USER (
     -- attributes
     last_name text NOT NULL,
@@ -21,25 +20,21 @@ create table DATASET (
     FOREIGN KEY (author_email) REFERENCES USER(email)
 );
 
-
 create table METRIC (
     -- attributes
     total_downloads INTEGER NOT NULL,
     total_views INTEGER NOT NULL,
     database_version TEXT NOT NULL,
     number_tables INTEGER NOT NULL,
-
     -- keys and relations
     metrics_id VARCHAR(36) PRIMARY KEY,
     dataset_id VARCHAR(36) NOT NULL,
     FOREIGN KEY (dataset_id) REFERENCES DATASET(dataset_id)
 );
 
-
 CREATE TABLE CATEGORY (
     -- id and relationships
     category_id TEXT PRIMARY KEY,
-
     -- attributes
     category_name TEXT NOT NULL UNIQUE
 );
@@ -50,6 +45,5 @@ CREATE TABLE CATEGORY (
 create TABLE DATASET_CATEGORIES (
     dataset_id TEXT NOT NULL,
     category_id TEXT NOT NULL,
-    FOREIGN KEY (dataset_id) RELATIONSHIPS DATASET(dataset_id)
-    FOREIGN KEY (category_id) RELATIONSHIPS CATEGORY(category_id)
+    FOREIGN KEY (dataset_id) RELATIONSHIPS DATASET(dataset_id) FOREIGN KEY (category_id) RELATIONSHIPS CATEGORY(category_id)
 );

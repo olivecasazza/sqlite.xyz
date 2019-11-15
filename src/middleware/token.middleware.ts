@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
-import * as jwt from "jsonwebtoken";
-import { config } from "../config/config";
+import { NextFunction, Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
+import { config } from '../config/config';
 
 export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   //ge t the jwt token from the head
-  const token = <string>req.headers["auth"];
+  const token = <string>req.headers['auth'];
   let jwtPayload;
 
   // try to validate the token and get data
@@ -21,9 +21,9 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   // we want to send a new token on every request
   const { userId, username } = jwtPayload;
   const newToken = jwt.sign({ userId, username }, config.jwtSecret, {
-    expiresIn: "1h"
+    expiresIn: '1h',
   });
-  res.setHeader("token", newToken);
+  res.setHeader('token', newToken);
 
   // call the next middleware or controller
   next();

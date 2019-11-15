@@ -1,28 +1,27 @@
-import { IsNotEmpty, Length } from "class-validator";
+import { IsNotEmpty, Length } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import { Metric } from "./metric.model";
-import { User } from "./user.model";
+  UpdateDateColumn,
+} from 'typeorm';
+import { Metric } from './metric.model';
+import { User } from './user.model';
 
 @Entity()
 export class Dataset {
   /** PRIMARY KEYS */
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   /** ATTRIBUTES */
   // the name of the dataset
   @Column({
-    type: "varchar",
-    nullable: false
+    type: 'varchar',
+    nullable: false,
   })
   @IsNotEmpty()
   name: string;
@@ -30,9 +29,9 @@ export class Dataset {
   // a short description
   // of the dataset
   @Column({
-    type: "varchar",
+    type: 'varchar',
     length: 255,
-    nullable: true
+    nullable: true,
   })
   @Length(0, 255)
   description: string;
@@ -40,8 +39,8 @@ export class Dataset {
   // the date the dataset
   // information was created
   @Column({
-    type: "date",
-    nullable: false
+    type: 'date',
+    nullable: false,
   })
   @CreateDateColumn()
   createdAt: Date;
@@ -49,8 +48,8 @@ export class Dataset {
   // the date the dataset
   // information was last updated
   @Column({
-    type: "date",
-    nullable: false
+    type: 'date',
+    nullable: false,
   })
   @UpdateDateColumn()
   updatedAt: Date;
@@ -59,13 +58,20 @@ export class Dataset {
   // foreign key for datasets
   // a user has many datasets
   // associated with their account
-  @ManyToOne(() => User, user => user.datasets, { onDelete: 'CASCADE' })
+  @ManyToOne(
+    () => User,
+    (user) => user.datasets,
+    { onDelete: 'CASCADE' },
+  )
   user: User;
 
   // a dataset has one metric object
   // associated with it which saves
   // metadata and extra information about
   // a dataset
-  @OneToOne(type => Metric, metric => metric.dataset)
+  @OneToOne(
+    (type) => Metric,
+    (metric) => metric.dataset,
+  )
   metric: Metric;
 }

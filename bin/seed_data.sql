@@ -26,7 +26,11 @@ SET
 
 INSERT INTO
     DATASET (
-        dataset_name, download_link, dataset_description, dataset_id, author_email
+        dataset_name,
+        download_link,
+        dataset_description,
+        dataset_id,
+        author_email
     )
 VALUES
     (
@@ -39,7 +43,12 @@ VALUES
 
 INSERT INTO
     METRIC (
-        total_downloads, total_views, database_version, number_tables, metrics_id, dataset_id
+        total_downloads,
+        total_views,
+        database_version,
+        number_tables,
+        metrics_id,
+        dataset_id
     )
 VALUES
     (
@@ -56,10 +65,14 @@ SET
 
 INSERT INTO
     DATASET (
-        dataset_name, download_link, dataset_description, dataset_id, author_email
+        dataset_name,
+        download_link,
+        dataset_description,
+        dataset_id,
+        author_email
     )
 VALUES
-     (
+    (
         'tu_1_document_2',
         'tu_1_document_2_download_link.com',
         'tu_1_document_2_description',
@@ -69,7 +82,12 @@ VALUES
 
 INSERT INTO
     METRIC (
-        total_downloads, total_views, database_version, number_tables, metrics_id, dataset_id
+        total_downloads,
+        total_views,
+        database_version,
+        number_tables,
+        metrics_id,
+        dataset_id
     )
 VALUES
     (
@@ -86,10 +104,14 @@ SET
 
 INSERT INTO
     DATASET (
-        dataset_name, download_link, dataset_description, dataset_id, author_email
+        dataset_name,
+        download_link,
+        dataset_description,
+        dataset_id,
+        author_email
     )
 VALUES
-     (
+    (
         'tu_2_document_1',
         'tu_2_document_1_download_link.com',
         'tu_2_document_1_description',
@@ -99,7 +121,12 @@ VALUES
 
 INSERT INTO
     METRIC (
-        total_downloads, total_views, database_version, number_tables, metrics_id, dataset_id
+        total_downloads,
+        total_views,
+        database_version,
+        number_tables,
+        metrics_id,
+        dataset_id
     )
 VALUES
     (
@@ -116,10 +143,14 @@ SET
 
 INSERT INTO
     DATASET (
-        dataset_name, download_link, dataset_description, dataset_id, author_email
+        dataset_name,
+        download_link,
+        dataset_description,
+        dataset_id,
+        author_email
     )
 VALUES
-     (
+    (
         'tu_2_document_2',
         'tu_2_document_2_download_link.com',
         'tu_2_document_2_description',
@@ -129,7 +160,12 @@ VALUES
 
 INSERT INTO
     METRIC (
-        total_downloads, total_views, database_version, number_tables, metrics_id, dataset_id
+        total_downloads,
+        total_views,
+        database_version,
+        number_tables,
+        metrics_id,
+        dataset_id
     )
 VALUES
     (
@@ -140,9 +176,15 @@ VALUES
         uuid(),
         @tu_2_d2_id
     );
+
 INSERT INTO
     METRIC (
-        total_downloads, total_views, database_version, number_tables, metrics_id, dataset_id
+        total_downloads,
+        total_views,
+        database_version,
+        number_tables,
+        metrics_id,
+        dataset_id
     )
 VALUES
     (
