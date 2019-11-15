@@ -1,3 +1,3 @@
 export const config = {
-  jwtSecret: '@QEGTUI',
+    jwtSecret: '@QEGTUI',
 };

@@ -9,27 +9,27 @@ import 'reflect-metadata';
 const PORT = 3000;
 
 const startServer = async () => {
-  try {
-    // connect to the mysql database
-    await createConnection();
+    try {
+        // connect to the mysql database
+        await createConnection();
 
-    // Create a new express application instance
-    const app = express();
+        // Create a new express application instance
+        const app = express();
 
-    // Call midlewares
-    app.use(cors());
-    app.use(helmet());
-    app.use(bodyParser.json());
+        // Call midlewares
+        app.use(cors());
+        app.use(helmet());
+        app.use(bodyParser.json());
 
-    //Set all routes from routes folder
-    app.use('/', routes);
+        //Set all routes from routes folder
+        app.use('/', routes);
 
-    app.listen(PORT, () => {
-      console.log(`Server started on port ${PORT}!`);
-    });
-  } catch (error) {
-    console.error(`error starting database: ${error}`);
-  }
+        app.listen(PORT, () => {
+            console.log(`Server started on port ${PORT}!`);
+        });
+    } catch (error) {
+        console.error(`error starting database: ${error}`);
+    }
 };
 
 startServer();
