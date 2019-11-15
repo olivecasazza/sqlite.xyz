@@ -1,7 +1,7 @@
-# Awesome Project Build with TypeORM
+# sqlite.xyz
 
-Steps to run this project:
+### steps to run this application:
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+1. run `npm i` command
+2. setup database settings inside `ormconfig.json` file
+3. run `npm start` command
