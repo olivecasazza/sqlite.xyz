@@ -1,0 +1,32 @@
+<div class="register-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+    <form class="example-form">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput placeholder="email" [formControl]="email" class="example-full-width" required>
+          <mat-error *ngIf="email.invalid">{{email.errors | json}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="firstName" [formControl]="firstName" class="example-full-width" required>
+          <mat-error *ngIf="firstName.invalid">{{firstName.errors | json}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="lastName" [formControl]="lastName" class="example-full-width" required>
+          <mat-error *ngIf="lastName.invalid">{{lastName.errors | json}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="username" [formControl]="username" class="example-full-width" required>
+          <mat-error *ngIf="username.invalid">{{username.errors | json}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="password" [formControl]="password" class="example-full-width" required>
+          <mat-error *ngIf="password.invalid">{{password.errors | json}}</mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button color="accent" class="btn-block" (click)=createUser()>Register</button>
+    </form>
+  </mat-card>
+</div>
