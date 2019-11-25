@@ -10,6 +10,11 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuardService } from './guards/auth.guard';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt_token');
+}
 
 @NgModule({
   declarations: [
@@ -19,16 +24,16 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent
   ],
   imports: [
-    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FlexLayoutModule,
     FormsModule,
+    HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,10 +1,15 @@
-<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+<mat-toolbar color="primary" class="login-header">
+    <div>sqlite.xyz</div>
+    <span class="nav-tool-items">
+        <a mat-button mat-raised-button routerLink="/register">Create Account</a>
+    </span>
+</mat-toolbar>
 
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
         <mat-card-header>
-            <mat-card-title>Log in</mat-card-title>
+            <mat-card-title>Existing Account</mat-card-title>
         </mat-card-header>
-
         <form class="example-form">
             <mat-card-content>
                 <mat-form-field>

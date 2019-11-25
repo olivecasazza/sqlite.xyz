@@ -16,13 +16,13 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {}
 
-    login = () => {
+    login = async () => {
         // dont do anything if we dont
         // have username and password
         if (this.username.errors || this.username.errors) {
             return;
         }
         // call the login service
-        return this.authService.login(this.username.value, this.password.value);
+        await this.authService.login(this.username.value, this.password.value);
     };
 }

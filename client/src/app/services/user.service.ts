@@ -41,6 +41,6 @@ export class UserService {
         }
         // update state and view if successfull
         this.state.set({ ...createUserRequest });
-        this.router.navigate([``]);
+        this.router.navigate([`/${createUserRequest.username}`]);
     }
 }

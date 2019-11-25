@@ -29,15 +29,15 @@ export class StateService {
         this.state.next({ ...newState, ...savedState });
     }
 
-    public get(): AppState {
-        const currentState = this.state.value;
+    public async get(): Promise<AppState> {
+        const currentState = await this.state.value;
         console.log('[stateService] fetching state: ', currentState);
         return currentState;
     }
 
-    public async set(newState: AppState) {
+    public async set(newState: AppState){
         console.log('[stateService] setting state: ', newState);
-        await this.state.next(newState);
-        await localStorage.setItem('state', JSON.stringify(newState));
+        this.state.next(newState);
+        localStorage.setItem('state', JSON.stringify(newState));
     }
 }
