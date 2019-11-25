@@ -1,4 +1,6 @@
-# sqlite.xyz
+## sqlite.xyz
+
+---
 
 ### dependencies
 
@@ -13,6 +15,8 @@ to install frontend dependencies...
 
 ```cd <project_root>/client && npm install```
 
+---
+
 ### steps to run this application:
 
 start development database...
@@ -26,3 +30,24 @@ start development backend server...
 start development frontend server...
 
 ```cd <project_root>/client && npm run start```
+
+---
+
+### ToDo(s):
+
+#### MVP
+- [ ] add file upload view
+- [ ] add database service
+- [ ] add sqlite database list view
+- [ ] add sqlite database individual view
+
+
+#### ALPHA
+- [ ] add email verification
+- [ ] setup hosting on aws or gce
+- [ ] add explore community databases view
+- [ ] add profile edit/delete view
+- [ ] add profile explore view
+
+
+---
