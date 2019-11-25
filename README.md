@@ -49,5 +49,4 @@ start development frontend server...
 - [ ] add profile edit/delete view
 - [ ] add profile explore view
 
-
 ---

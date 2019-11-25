@@ -3,13 +3,14 @@ import { User } from '../entity/user.model';
 import * as faker from 'faker';
 import { Dataset } from '../entity/dataset.model';
 import { Metric } from '../entity/metric.model';
+import { loadTestDb, testDbTables } from '../assets/test.db';
 
 export class SeedTestData1573855208544 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
         try {
             // create some test users
             const savedUsers = await Promise.all(
-                [1, 2, 3, 4, 5].map(async () => {
+                [1, 2, 3].map(async () => {
                     return await createFakeUsers(queryRunner);
                 }),
             );
@@ -19,7 +20,7 @@ export class SeedTestData1573855208544 implements MigrationInterface {
             const userDatasets = await Promise.all(
                 savedUsers
                     .reduce(
-                        (acc, cur) => acc.concat(Array(5).fill(cur)),
+                        (acc, cur) => acc.concat(Array(1).fill(cur)),
                         [] as User[],
                     )
                     .map(async (user) => {
@@ -56,7 +57,7 @@ const createFakeUsers = async (queryRunner: QueryRunner): Promise<User> => {
     user.lastName = faker.name.lastName();
     user.username = faker.internet.userName();
     user.email = faker.internet.email();
-    user.password = "password"
+    user.password = 'password';
     user.hashPassword();
     user.role = 'TEST_USER';
     // save user to database
@@ -84,6 +85,9 @@ const createFakeMetrics = async (
     // create fake attributes
     let metric = new Metric();
     metric.dataset = dataset;
+    // load the test db file
+    metric.blob = Buffer.from(await loadTestDb()).toString('base64');
+    metric.tables = testDbTables;
     //save dataset to database
     return await queryRunner.manager.getRepository(Metric).save(metric);
 };

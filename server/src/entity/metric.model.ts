@@ -9,6 +9,11 @@ import {
 } from 'typeorm';
 import { Dataset } from './dataset.model';
 
+export interface Table {
+    tableName: string;
+    columns: string[];
+};
+
 @Entity()
 export class Metric {
     /** PRIMARY KEYS */
@@ -18,6 +23,24 @@ export class Metric {
     /** ATTRIBUTES */
     // the data that the metrics
     // were first created
+    @Column({
+        type: 'longblob',
+        nullable: false,
+    })
+    blob: string;
+
+    // a dict object describing
+    // the tables in the db as well
+    // as the columns in each table
+    // todo: refactor tables to it's own table
+    @Column({
+        type: 'simple-json',
+        nullable: false,
+    })
+    tables: Table[];
+
+    // the date the metrics
+    // object was created
     @Column({
         type: 'date',
         nullable: false,

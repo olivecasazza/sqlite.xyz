@@ -115,12 +115,12 @@ export class DatasetController {
         let dataset: Dataset;
         try {
             dataset = await datasetRepository.findOneOrFail(id);
+            datasetRepository.delete(id);
+            //after all send a 204 (no content, but accepted) response
+            res.status(204).send();
         } catch (error) {
             res.status(404).send('dataset not found');
             return;
         }
-        datasetRepository.delete(id);
-        //after all send a 204 (no content, but accepted) response
-        res.status(204).send();
     };
 }

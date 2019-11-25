@@ -7,7 +7,7 @@
    "database": "db",
    "name": "default",
    "synchronize": true,
-   "logging": true,
+   "logging": ["error", "info", "warn"],
    "entities": ["dist/entity/*.js"],
    "migrations": [
       "dist/migration/*.js"
