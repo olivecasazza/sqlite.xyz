@@ -6,11 +6,14 @@ import { checkRole } from '../middleware';
 const router = Router();
 
 // get all datasets
-router.get('/', [checkToken, checkRole(['ADMIN'])], DatasetController.listAll);
-
-//  get one dataset
 router.get(
     '/:id',
+    // [checkToken, checkRole(['ADMIN'])],
+    DatasetController.getOneById,
+);
+
+router.get(
+    '/all/:id',
     // [checkToken, checkRole(['ADMIN'])],
     DatasetController.listByUserId,
 );
@@ -36,6 +39,10 @@ router.delete(
     DatasetController.deleteDataset,
 );
 
+// upload a new dataset file
 router.post('/upload', DatasetController.uploadDatasetFile);
+
+// download a dataset file given a dataset id
+router.get('/download/:id', DatasetController.downloadDataset);
 
 export default router;

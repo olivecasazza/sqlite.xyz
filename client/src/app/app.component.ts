@@ -28,6 +28,9 @@ export class AppComponent implements OnDestroy {
 
     logout = () => this.authService.logout();
 
+
+    toggleSideNav = () => this.opened = !this.opened;
+
     ngOnDestroy(): void {
         this.mobileQuery.removeListener(this._mobileQueryListener);
     }

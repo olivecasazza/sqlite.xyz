@@ -7,7 +7,8 @@ import { User } from '../entity/user.model';
 import initSqlJs from 'sql.js';
 import { readFileSync } from 'fs';
 
-const BASE_UPLOAD_PATH = '/home/colin/Code/SDSU/sci_databases/sqlitexyz/server/databases'
+const BASE_UPLOAD_PATH =
+    '/home/colin/Code/SDSU/sci_databases/sqlitexyz/server/databases';
 
 export class DatasetController {
     static newDataset = async (req: Request, res: Response) => {
@@ -31,7 +32,9 @@ export class DatasetController {
 
             // if no errors were thrown by
             // now creation was successfull
-            return res.status(201).send({ ...savedDataset, metric: savedMetric });
+            return res
+                .status(201)
+                .send({ ...savedDataset, metric: savedMetric });
         } catch (error) {
             console.error(error);
             return res.status(400).send(error);
@@ -43,6 +46,23 @@ export class DatasetController {
         const tmpFilePath = `${BASE_UPLOAD_PATH}/${requestFile.file.md5}`;
         await requestFile.file.mv(tmpFilePath);
         res.status(201).send({ dbFilePath: requestFile.file.md5 });
+    };
+
+    static downloadDataset = async (req: Request, res: Response) => {
+        //  get the id from the url
+        const id: string = req.params.id;
+        //  get the user from database
+        const datasetRepository = getRepository(Dataset);
+        try {
+            const dataset = await datasetRepository.findOneOrFail(id, {
+                select: ['id', 'name', 'description', 'createdAt', 'updatedAt'],
+                relations: ['metric'],
+            });
+            const file = `${BASE_UPLOAD_PATH}/${dataset.metric.dbPath}`;
+            res.download(file);
+        } catch (error) {
+            res.status(404).send('dataset not found');
+        }
     };
 
     static listAll = async (req: Request, res: Response) => {
@@ -59,13 +79,12 @@ export class DatasetController {
     static listByUserId = async (req: Request, res: Response) => {
         //  get the id from the url
         const userId: string = req.params.id;
-        console.dir(userId)
+        console.dir(userId);
         //  get the user from database
         const datasetRepository = getRepository(Dataset);
         try {
             const datasets = await datasetRepository.find({
                 select: ['id', 'name', 'description', 'createdAt', 'updatedAt'],
-                relations: ['user', 'metric'],
                 where: {
                     user: userId,
                 },
@@ -84,7 +103,7 @@ export class DatasetController {
         try {
             const dataset = await datasetRepository.findOneOrFail(id, {
                 select: ['id', 'name', 'description', 'createdAt', 'updatedAt'],
-                relations: ['user', 'metric'],
+                relations: ['metric'],
             });
             res.send(dataset);
         } catch (error) {
@@ -139,16 +158,12 @@ export class DatasetController {
     };
 }
 
-export const getDbInfo = async (
-    path,
-): Promise<Table[]> => {
+export const getDbInfo = async (path): Promise<Table[]> => {
     try {
-        const filebuffer = readFileSync(
-            `${BASE_UPLOAD_PATH}/${path}`,
-        );
+        const filebuffer = readFileSync(`${BASE_UPLOAD_PATH}/${path}`);
         const SQL = await initSqlJs();
         const db = new SQL.Database(filebuffer);
-        
+
         const query: [] = db.exec(`
         SELECT m.name as tableName, p.name as columnName
         FROM sqlite_master m

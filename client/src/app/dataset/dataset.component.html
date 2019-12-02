@@ -1,0 +1,8 @@
+<div>
+    <h1>Dataset Name: {{(dataset | async)?.name }}</h1>
+    <h4>Description: {{(dataset | async)?.description }}</h4>
+    <h4>Created At: {{(dataset | async)?.createdAt }}</h4>
+    <h4>Updated At: {{(dataset | async)?.updatedAt }}</h4>
+    <h4>Dataset Metrics: {{(dataset | async)?.metrics | json }}</h4>
+    <button (click)="downloadDataset()" mat-button>Download Dataset</button>
+</div>

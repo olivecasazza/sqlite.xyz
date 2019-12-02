@@ -39,7 +39,7 @@ start development frontend server...
 - [x] add file upload view
 - [x] add database service
 - [x] add sqlite database list view
-- [ ] add sqlite database individual view
+- [x] add sqlite database individual view
 
 
 #### ALPHA

@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './guards/auth.guard';
-import { DatabaseListComponent } from './database-list/database-list.component';
+import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { UploadComponent } from './upload/upload.component';
+import { DatasetComponent } from './dataset/dataset.component';
 
 const routes: Routes = [
     // login and register components
@@ -17,8 +17,12 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: DatabaseListComponent,
+                component: DatasetListComponent,
                 canActivate: [AuthGuardService]
+            },
+            {
+                path: ':datasetId',
+                component: DatasetComponent
             },
             {
                 path: 'upload',

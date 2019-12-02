@@ -2,13 +2,13 @@
     <mat-toolbar color="primary" class="app-toolbar">
         <h1 class="app-header">sqlite.xyz</h1>
         <span class="app-header-spacer"></span>
-        <button *ngIf="isAuthenticated | async" mat-icon-button (click)="snav.toggle()">
+        <button *ngIf="isAuthenticated | async" mat-icon-button (click)="toggleSideNav()">
             <mat-icon>menu</mat-icon>
         </button>
     </mat-toolbar>
 
     <mat-sidenav-container class="app-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')" (closed)="events.push('close!')" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" position="end" *ngIf="isAuthenticated | async"
+        <mat-sidenav #sidenav mode="side" [(opened)]="opened" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" position="end" *ngIf="isAuthenticated | async"
             fixedTopGap="56">
             <mat-list>
                 <mat-list-item (click)="logout()">

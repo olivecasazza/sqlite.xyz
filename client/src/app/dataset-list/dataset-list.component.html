@@ -1,0 +1,40 @@
+<div>
+    <h1>User Datasets</h1>
+    <mat-table [dataSource]="userDatasets" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let dataset"> {{dataset.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let dataset"> {{dataset.description}} </mat-cell>
+        </ng-container>
+
+        <!-- Created At Column -->
+        <ng-container matColumnDef="createdAt">
+            <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+            <mat-cell *matCellDef="let dataset"> {{dataset.createdAt}} </mat-cell>
+        </ng-container>
+
+        <!-- Updated At Column -->
+        <ng-container matColumnDef="updatedAt">
+            <mat-header-cell *matHeaderCellDef> Updated At </mat-header-cell>
+            <mat-cell *matCellDef="let dataset"> {{dataset.updatedAt}} </mat-cell>
+        </ng-container>
+
+        <!-- Star Column -->
+        <ng-container matColumnDef="star">
+            <mat-header-cell *matHeaderCellDef>Open Dataset</mat-header-cell>
+            <mat-cell (click)="openDataSet(dataset)" *matCellDef="let dataset">
+                <button mat-button><mat-icon>more_vert</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="datasetColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: datasetColumns;"></mat-row>
+    </mat-table>
+</div>
