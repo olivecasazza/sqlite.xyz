@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
-import { TouchSequence } from 'selenium-webdriver';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -14,8 +14,9 @@ export class RegisterComponent implements OnInit {
     username = new FormControl('', [Validators.required]);
     password = new FormControl('', [Validators.required]);
     email = new FormControl('', [Validators.required, Validators.email]);
+    hidePassword = true;
 
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private router: Router) {}
 
     ngOnInit() {}
 
@@ -34,4 +35,6 @@ export class RegisterComponent implements OnInit {
             this.email.value,
         );
     };
+
+    navigateToLogin = () => this.router.navigateByUrl('login');
 }

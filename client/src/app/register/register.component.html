@@ -22,11 +22,15 @@
           <mat-error *ngIf="username.invalid">{{username.errors | json}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="password" [formControl]="password" class="example-full-width" required>
-          <mat-error *ngIf="password.invalid">{{password.errors | json}}</mat-error>
+            <input matInput placeholder="password"  class="example-full-width" [type]="hidePassword ? 'password' : 'text'"
+                [formControl]="password" required>
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                    {{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="password.invalid">{{password.errors | json}}</mat-error>
         </mat-form-field>
       </mat-card-content>
       <button mat-stroked-button color="accent" class="btn-block" (click)=createUser()>Register</button>
+      <button mat-stroked-button color="accent" class="btn-block" (click)=navigateToLogin()>Login</button>
     </form>
   </mat-card>
 </div>
