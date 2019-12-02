@@ -9,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthGuardService } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { UploadComponent } from './upload/upload.component';
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetComponent } from './dataset/dataset.component';
@@ -37,7 +37,7 @@ export function tokenGetter() {
     MaterialModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

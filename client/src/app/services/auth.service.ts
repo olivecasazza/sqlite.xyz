@@ -13,7 +13,6 @@ const helper = new JwtHelperService();
     providedIn: 'root',
 })
 export class AuthService {
-
     isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(
@@ -24,23 +23,27 @@ export class AuthService {
 
     async isAuthenticated(): Promise<boolean> {
         const currentState = await this.state.get();
-        // make sure token exists
+        let isLoggedIn = false;
+        // make sure token and user exist in state
         if (
-            !currentState ||
-            !currentState.currentUser ||
-            !currentState.currentUser.token
+            currentState ||
+            currentState.currentUser ||
+            currentState.currentUser.token
         ) {
-            this.isLoggedIn.next(false);
-            return false;
+            // use the jwt helper to see if the current token is expired
+            const isTokenExpired = await helper.isTokenExpired(
+                currentState.currentUser.token,
+            );
+            // return false if token is expired
+            // otherwise user is authenticated
+            isLoggedIn = isTokenExpired === true ? false : true;
         }
-        // use the jwt helper to see if the current token is expired
-        const isTokenExpired = await helper.isTokenExpired(
-            currentState.currentUser.token,
-        );
-        // return false if token is expired
-        // otherwise user is authenticated
-        const isLoggedIn = isTokenExpired === true ? false : true;
-        this.isLoggedIn.next(true);
+        this.isLoggedIn.next(isLoggedIn);
+        // if theres no authenticated user
+        // redirect to the login page
+        if (!isLoggedIn) {
+            this.router.navigate(['login']);
+        }
         return isLoggedIn;
     }
 
@@ -80,7 +83,7 @@ export class AuthService {
                 token: null,
             },
         };
-        this.state.set({...newState});
+        this.state.set({ ...newState });
         this.isLoggedIn.next(false);
         this.router.navigate([`/login`]);
     }

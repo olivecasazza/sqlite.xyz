@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthGuardService } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { UploadComponent } from './upload/upload.component';
 import { DatasetComponent } from './dataset/dataset.component';
@@ -13,27 +13,28 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
 
     // user level components
-    { path: ':username', canActivate: [AuthGuardService],
+    { path: ':username', canActivate: [AuthGuard],
         children: [
             {
                 path: '',
                 component: DatasetListComponent,
-                canActivate: [AuthGuardService]
+                canActivate: [AuthGuard]
             },
             {
                 path: ':datasetId',
-                component: DatasetComponent
+                component: DatasetComponent,
+                canActivate: [AuthGuard]
             },
             {
                 path: 'upload',
                 component: UploadComponent,
-                canActivate: [AuthGuardService]
+                canActivate: [AuthGuard]
             }
         ]
     },
 
     // otherwise redirect to login
-    { path: '**', redirectTo: '/login' },
+    { path: '**', component: LoginComponent }
 ];
 
 @NgModule({
