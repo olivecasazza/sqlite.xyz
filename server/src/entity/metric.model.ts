@@ -24,10 +24,10 @@ export class Metric {
     // the data that the metrics
     // were first created
     @Column({
-        type: 'longblob',
+        type: 'varchar',
         nullable: false,
     })
-    blob: string;
+    dbPath: string;
 
     // a dict object describing
     // the tables in the db as well

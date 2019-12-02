@@ -8,6 +8,7 @@ import { User } from '../models/user.model';
 import { StateService } from './state.service';
 import { Router } from '@angular/router';
 import { AppState } from '../models/state.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class UserService {
         private router: Router,
         private http: HttpClient,
         private state: StateService,
+        private authService: AuthService
     ) { }
 
     async createUser(firstName, lastName, username, password, email) {
@@ -39,8 +41,7 @@ export class UserService {
         if (!createUserRequest) {
             return;
         }
-        // update state and view if successfull
-        this.state.set({ ...createUserRequest });
-        this.router.navigate([`/${createUserRequest.username}`]);
+        // log the user in if successfull
+        this.authService.login(username, password);
     }
 }

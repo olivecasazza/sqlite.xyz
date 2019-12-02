@@ -16,7 +16,10 @@
     ],
     "lib": [
       "es2018",
-      "dom"
+      "dom",
+    ],
+    "types": [
+      "node",
     ]
   },
   "angularCompilerOptions": {

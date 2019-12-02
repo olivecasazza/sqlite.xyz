@@ -1,13 +1,4 @@
-.register-header {
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-}
-
-.register-wrapper {
+.upload-wrapper {
   height: 100%;
 }
 
@@ -53,37 +44,37 @@
   z-index: -1;
 }
 
-.register-wrapper .example-form {
+.upload-wrapper .example-form {
   min-width: 100%;
   max-width: 300px;
   width: 100%;
 }
 
-.register-wrapper .example-full-width,
-.register-wrapper .btn-block {
+.upload-wrapper .example-full-width,
+.upload-wrapper .btn-block {
   width: 100%;
 }
 
-.register-wrapper mat-card-header {
+.upload-wrapper mat-card-header {
   text-align: center;
   width: 100%;
   display: block;
   font-weight: 700;
 }
 
-.register-wrapper mat-card-header mat-card-title {
+.upload-wrapper mat-card-header mat-card-title {
   font-size: 30px;
   margin: 0;
 }
 
-.register-wrapper .mat-card {
+.upload-wrapper .mat-card {
   padding: 40px 70px 50px;
 }
 
-.register-wrapper .mat-stroked-button {
+.upload-wrapper .mat-stroked-button {
   line-height: 54px;
 }
 
-.register-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
+.upload-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0.8375em 0;
 }

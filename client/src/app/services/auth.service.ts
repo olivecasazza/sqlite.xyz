@@ -5,6 +5,7 @@ import { StateService } from './state.service';
 import { Router } from '@angular/router';
 import { AppState } from '../models/state.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
 
 const helper = new JwtHelperService();
 
@@ -12,6 +13,9 @@ const helper = new JwtHelperService();
     providedIn: 'root',
 })
 export class AuthService {
+
+    isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
     constructor(
         private router: Router,
         private http: HttpClient,
@@ -26,6 +30,7 @@ export class AuthService {
             !currentState.currentUser ||
             !currentState.currentUser.token
         ) {
+            this.isLoggedIn.next(false);
             return false;
         }
         // use the jwt helper to see if the current token is expired
@@ -34,7 +39,9 @@ export class AuthService {
         );
         // return false if token is expired
         // otherwise user is authenticated
-        return isTokenExpired === true ? false : true;
+        const isLoggedIn = isTokenExpired === true ? false : true;
+        this.isLoggedIn.next(true);
+        return isLoggedIn;
     }
 
     async login(username, password) {
@@ -53,7 +60,8 @@ export class AuthService {
             return;
         }
         // update state and view if successfull
-        this.state.set({ ...loginRequest });
+        this.isLoggedIn.next(true);
+        this.state.set({ currentUser: { ...loginRequest } });
         this.router.navigate([`/${loginRequest.username}/`]);
     }
 
@@ -72,7 +80,8 @@ export class AuthService {
                 token: null,
             },
         };
-        await this.state.set(newState);
+        this.state.set({...newState});
+        this.isLoggedIn.next(false);
         this.router.navigate([`/login`]);
     }
 }

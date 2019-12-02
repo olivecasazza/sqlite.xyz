@@ -5,6 +5,7 @@ import * as helmet from 'helmet';
 import * as cors from 'cors';
 import routes from './routes/index';
 import 'reflect-metadata';
+import * as fileUpload from 'express-fileupload'
 
 const PORT =  process.env.PORT || 8000;
 
@@ -19,7 +20,13 @@ const startServer = async () => {
         // call application middleware
         app.use(cors());
         app.use(helmet());
-        app.use(bodyParser.json());
+        app.use(bodyParser.json({limit: '50mb'}));
+        app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+        // setup temp file storage
+        app.use(fileUpload({
+            useTempFiles : false,
+        }));
 
         // setup application routes
         app.use('/api', routes);

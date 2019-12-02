@@ -36,9 +36,9 @@ start development frontend server...
 ### ToDo(s):
 
 #### MVP
-- [ ] add file upload view
-- [ ] add database service
-- [ ] add sqlite database list view
+- [x] add file upload view
+- [x] add database service
+- [x] add sqlite database list view
 - [ ] add sqlite database individual view
 
 

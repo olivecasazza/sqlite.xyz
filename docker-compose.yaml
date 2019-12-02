@@ -4,6 +4,7 @@ services:
     container_name: db
     image: mysql:5.7.26
     restart: always
+    command: --max_allowed_packet=325058560
     environment:
       MYSQL_DATABASE: db
       MYSQL_USER: root

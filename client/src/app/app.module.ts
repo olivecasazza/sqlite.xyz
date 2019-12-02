@@ -11,6 +11,8 @@ import { MaterialModule } from './material.module';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuardService } from './guards/auth.guard';
+import { UploadComponent } from './upload/upload.component';
+import { DatabaseListComponent } from './database-list/database-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -21,7 +23,9 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    UploadComponent,
+    DatabaseListComponent
   ],
   imports: [
     AppRoutingModule,

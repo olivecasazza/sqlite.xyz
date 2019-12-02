@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './guards/auth.guard';
+import { DatabaseListComponent } from './database-list/database-list.component';
+import { UploadComponent } from './upload/upload.component';
 
 const routes: Routes = [
     // login and register components
@@ -11,7 +13,20 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
 
     // user level components
-    { path: ':username', component: HomeComponent, canActivate: [AuthGuardService] },
+    { path: ':username', canActivate: [AuthGuardService],
+        children: [
+            {
+                path: '',
+                component: DatabaseListComponent,
+                canActivate: [AuthGuardService]
+            },
+            {
+                path: 'upload',
+                component: UploadComponent,
+                canActivate: [AuthGuardService]
+            }
+        ]
+    },
 
     // otherwise redirect to login
     { path: '**', redirectTo: '/login' },

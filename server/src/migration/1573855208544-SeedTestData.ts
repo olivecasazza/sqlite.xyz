@@ -3,7 +3,7 @@ import { User } from '../entity/user.model';
 import * as faker from 'faker';
 import { Dataset } from '../entity/dataset.model';
 import { Metric } from '../entity/metric.model';
-import { loadTestDb, testDbTables } from '../assets/test.db';
+import { loadTestDb } from '../assets/test.db';
 
 export class SeedTestData1573855208544 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
@@ -86,8 +86,9 @@ const createFakeMetrics = async (
     let metric = new Metric();
     metric.dataset = dataset;
     // load the test db file
-    metric.blob = Buffer.from(await loadTestDb()).toString('base64');
-    metric.tables = testDbTables;
+    const tables = await loadTestDb();
+    metric.dbPath = 'chinook.db';
+    metric.tables = tables;
     //save dataset to database
     return await queryRunner.manager.getRepository(Metric).save(metric);
 };

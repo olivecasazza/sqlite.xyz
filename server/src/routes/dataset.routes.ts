@@ -10,30 +10,32 @@ router.get('/', [checkToken, checkRole(['ADMIN'])], DatasetController.listAll);
 
 //  get one dataset
 router.get(
-    '/:id([0-9]+)',
-    [checkToken, checkRole(['ADMIN'])],
-    DatasetController.getOneById,
+    '/:id',
+    // [checkToken, checkRole(['ADMIN'])],
+    DatasetController.listByUserId,
 );
 
 // create a new dataset
 router.post(
     '/',
-    [checkToken, checkRole(['ADMIN'])],
+    // [checkToken, checkRole(['ADMIN'])],
     DatasetController.newDataset,
 );
 
 // edit one dataset
 router.patch(
-    '/:id([0-9]+)',
-    [checkToken, checkRole(['ADMIN'])],
+    '/:id',
+    // [checkToken, checkRole(['ADMIN'])],
     DatasetController.editDataset,
 );
 
 // delete one dataset
 router.delete(
-    '/:id([0-9]+)',
-    [checkToken, checkRole(['ADMIN'])],
+    '/:id',
+    // [checkToken, checkRole(['ADMIN'])],
     DatasetController.deleteDataset,
 );
+
+router.post('/upload', DatasetController.uploadDatasetFile);
 
 export default router;
