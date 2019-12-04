@@ -5,4 +5,5 @@
     <h4>Updated At: {{(dataset | async)?.updatedAt }}</h4>
     <h4>Dataset Metrics: {{(dataset | async)?.metrics | json }}</h4>
     <button (click)="downloadDataset()" mat-button>Download Dataset</button>
+    <button (click)="deleteDataset()" mat-button>Delete Dataset</button>
 </div>

@@ -79,7 +79,6 @@ export class DatasetController {
     static listByUserId = async (req: Request, res: Response) => {
         //  get the id from the url
         const userId: string = req.params.id;
-        console.dir(userId);
         //  get the user from database
         const datasetRepository = getRepository(Dataset);
         try {

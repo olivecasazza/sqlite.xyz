@@ -13,6 +13,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { UploadComponent } from './upload/upload.component';
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetComponent } from './dataset/dataset.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -35,6 +36,7 @@ export function tokenGetter() {
     FormsModule,
     HttpClientModule,
     MaterialModule,
+    MaterialFileInputModule,
     ReactiveFormsModule,
   ],
   providers: [AuthGuard],

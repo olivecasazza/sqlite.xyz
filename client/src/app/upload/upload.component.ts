@@ -6,6 +6,8 @@ import {
     FormBuilder,
 } from '@angular/forms';
 import { DatasetService } from '../services/dataset.service';
+import { MatDialogRef } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-upload',
@@ -14,43 +16,43 @@ import { DatasetService } from '../services/dataset.service';
 })
 export class UploadComponent implements OnInit {
     SQL: any;
-    datasetName = new FormControl('', [Validators.required]);
-    datasetDescription = new FormControl('', [Validators.required]);
-    datasetFile = new FormControl('', [Validators.required]);
 
+    name = new FormControl('', [Validators.required]);
+    description = new FormControl('', [Validators.required]);
     form: FormGroup;
-    progress = 0;
 
-    constructor(public fb: FormBuilder, public datasetService: DatasetService) {
+    constructor(
+        public fb: FormBuilder,
+        public datasetService: DatasetService,
+        private route: ActivatedRoute,
+        private router: Router,
+    ) {
         this.form = this.fb.group({
             name: [''],
             description: [''],
-            blob: [''],
+            file: [''],
         });
     }
 
     ngOnInit() {}
 
-    uploadFile(event) {
-        this.form.patchValue({
-            blob: (event.target as HTMLInputElement).files[0],
-        });
-        this.form.get('blob').updateValueAndValidity();
-    }
-
     async submitDataset() {
         const uploadResponse = await this.datasetService.uploadDataSetFile(
-            this.form.value.blob,
-            this.form.value.name,
+            this.form.value.file._files[0],
+            this.name.value,
         );
 
-        if (!uploadResponse.dbFilePath) return;
+        if (!uploadResponse.dbFilePath) {
+            return;
+        }
 
-        console.dir(uploadResponse);
-        this.datasetService.newDataset(
-            this.form.value.name,
-            this.form.value.description,
+        await this.datasetService.newDataset(
+            this.name.value,
+            this.name.value,
             uploadResponse.dbFilePath,
         );
+
+        const userId = this.route.snapshot.paramMap.get('username');
+        this.router.navigate([`${userId}`]);
     }
 }

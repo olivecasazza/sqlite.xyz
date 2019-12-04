@@ -36,6 +36,11 @@ export class DatasetService {
         }
     };
 
+    deleteDataset = async (dataset: Dataset) => {
+        const url = `${environment.apiUrl}/datasets/${dataset.id}`;
+        return await this.http.delete<{ dbFilePath: string }>(url).toPromise();
+    };
+
     uploadDataSetFile = async (file, name) => {
         const url = `${environment.apiUrl}/datasets/upload`;
         const formData = new FormData();

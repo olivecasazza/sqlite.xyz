@@ -1,28 +1,27 @@
 <div class="upload-wrapper" fxLayout="row" fxLayoutAlign="center center">
-    <div class="container">
-        <h1>Upload Database</h1>
-        <form [formGroup]="form" (ngSubmit)="submitDataset()">
-            <!-- Progress Bar -->
-            <div class="progress form-group" *ngIf="progress > 0">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
-                </div>
-            </div>
+    <mat-card class="box">
+        <mat-card-header>
+            <mat-card-title>Upload New Dataset</mat-card-title>
+        </mat-card-header>
 
-            <div class="form-group">
-                <input type="file" (change)="uploadFile($event)">
-            </div>
+        <form [formGroup]="form">
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput placeholder="name" [formControl]="name" class="upload-full-width" required>
+                    <mat-error *ngIf="name.invalid">{{name.errors | json}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="description" [formControl]="description" class="upload-full-width"
+                        required>
+                    <mat-error *ngIf="description.invalid">{{description.errors | json}}</mat-error>
+                </mat-form-field>
 
-            <div class="form-group input-group-lg">
-                <input class="form-control" placeholder="Name" formControlName="name">
-            </div>
+                <mat-form-field>
+                    <ngx-mat-file-input formControlName="file" placeholder="Choose File"></ngx-mat-file-input>
+                </mat-form-field>
 
-            <div class="form-group input-group-lg">
-                <input class="form-control" placeholder="Description" formControlName="description">
-            </div>
-
-            <div class="form-group">
-                <button class="btn btn-danger btn-block btn-lg">Create</button>
-            </div>
+            </mat-card-content>
+            <button mat-stroked-button color="accent" class="btn-block" (click)=submitDataset()>Upload</button>
         </form>
-    </div>
+    </mat-card>
 </div>

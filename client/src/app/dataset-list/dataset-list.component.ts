@@ -16,7 +16,7 @@ export class DatasetListComponent {
         'description',
         'createdAt',
         'updatedAt',
-        'star',
+        'open',
     ];
     userDatasets: BehaviorSubject<Dataset[]> = new BehaviorSubject<Dataset[]>(
         null,

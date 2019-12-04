@@ -1,5 +1,4 @@
-<div>
-    <h1>User Datasets</h1>
+<div class="dataset-list-wrapper" >
     <mat-table [dataSource]="userDatasets" class="mat-elevation-z8">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
@@ -25,14 +24,15 @@
             <mat-cell *matCellDef="let dataset"> {{dataset.updatedAt}} </mat-cell>
         </ng-container>
 
-        <!-- Star Column -->
-        <ng-container matColumnDef="star">
+        <!-- Open Dataset -->
+        <ng-container matColumnDef="open">
             <mat-header-cell *matHeaderCellDef>Open Dataset</mat-header-cell>
             <mat-cell (click)="openDataSet(dataset)" *matCellDef="let dataset">
-                <button mat-button><mat-icon>more_vert</mat-icon></button>
+                <button mat-button>
+                    <mat-icon>more_vert</mat-icon>
+                </button>
             </mat-cell>
         </ng-container>
-
 
         <mat-header-row *matHeaderRowDef="datasetColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: datasetColumns;"></mat-row>
