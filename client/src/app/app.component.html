@@ -11,9 +11,13 @@
         <mat-sidenav #sidenav mode="side" [(opened)]="opened" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" position="end" *ngIf="isAuthenticated | async"
             fixedTopGap="56">
             <mat-list>
-                <mat-list-item (click)="openUploadModal()"> 
-                    <mat-icon>upload</mat-icon>
-                    <h3>Upload New Dataset</h3>
+                <mat-list-item (click)="navigateToHome()">
+                    <mat-icon matListIcon>home</mat-icon>
+                    <h3 matLine>Home</h3>
+                </mat-list-item>
+                <mat-list-item (click)="navigateToUpload()">
+                    <mat-icon matListIcon>add</mat-icon>
+                    <h3 matLine>Upload New Dataset</h3>
                 </mat-list-item>
                 <mat-list-item (click)="logout()">
                     <mat-icon matListIcon>exit_to_app</mat-icon>

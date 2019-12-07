@@ -13,28 +13,30 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
 
     // user level components
-    { path: ':username', canActivate: [AuthGuard],
+    {
+        path: ':username',
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
                 component: DatasetListComponent,
-                canActivate: [AuthGuard]
-            },
-            {
-                path: ':datasetId',
-                component: DatasetComponent,
-                canActivate: [AuthGuard]
+                canActivate: [AuthGuard],
             },
             {
                 path: 'upload',
                 component: UploadComponent,
-                canActivate: [AuthGuard]
-            }
-        ]
+                canActivate: [AuthGuard],
+            },
+            {
+                path: ':datasetId',
+                component: DatasetComponent,
+                canActivate: [AuthGuard],
+            },
+        ],
     },
 
     // otherwise redirect to login
-    { path: '**', component: LoginComponent }
+    { path: '**', component: LoginComponent },
 ];
 
 @NgModule({

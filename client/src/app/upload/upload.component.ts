@@ -8,6 +8,7 @@ import {
 import { DatasetService } from '../services/dataset.service';
 import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StateService } from '../services/state.service';
 
 @Component({
     selector: 'app-upload',
@@ -24,7 +25,7 @@ export class UploadComponent implements OnInit {
     constructor(
         public fb: FormBuilder,
         public datasetService: DatasetService,
-        private route: ActivatedRoute,
+        private state: StateService,
         private router: Router,
     ) {
         this.form = this.fb.group({
@@ -37,7 +38,6 @@ export class UploadComponent implements OnInit {
     ngOnInit() {}
 
     async submitDataset() {
-
         const uploadResponse = await this.datasetService.uploadDataSetFile(
             this.form.value.file._files[0],
             this.name.value,
@@ -47,15 +47,14 @@ export class UploadComponent implements OnInit {
             return;
         }
 
-        console.dir(uploadResponse.dbFilePath)
-
         await this.datasetService.newDataset(
             this.name.value,
             this.name.value,
             uploadResponse.dbFilePath,
         );
 
-        const userId = this.route.snapshot.paramMap.get('username');
-        this.router.navigate([`${userId}`]);
+        const state = await this.state.get();
+        const username = state.currentUser.username;
+        this.router.navigateByUrl(`${username}`);
     }
 }

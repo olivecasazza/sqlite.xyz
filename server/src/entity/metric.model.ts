@@ -12,7 +12,7 @@ import { Dataset } from './dataset.model';
 export interface Table {
     tableName: string;
     columns: string[];
-};
+}
 
 @Entity()
 export class Metric {
@@ -34,10 +34,10 @@ export class Metric {
     // as the columns in each table
     // todo: refactor tables to it's own table
     @Column({
-        type: 'simple-json',
+        type: 'json',
         nullable: false,
     })
-    tables: Table[];
+    tables: JSON;
 
     // the date the metrics
     // object was created
