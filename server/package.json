@@ -21,6 +21,7 @@
       "class-validator": "^0.10.2",
       "cors": "^2.8.5",
       "cross-blob": "^1.1.0",
+      "crypto": "^1.0.1",
       "express": "^4.17.1",
       "express-fileupload": "^1.1.6",
       "faker": "^4.1.0",

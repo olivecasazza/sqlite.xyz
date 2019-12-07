@@ -5,7 +5,8 @@ import { Dataset } from '../entity/dataset.model';
 import { Metric, Table } from '../entity/metric.model';
 import { User } from '../entity/user.model';
 import initSqlJs from 'sql.js';
-import { readFileSync } from 'fs';
+import { readFileSync, unlinkSync } from 'fs';
+import { createHash } from 'crypto';
 
 const BASE_UPLOAD_PATH =
     '/home/colin/Code/SDSU/sci_databases/sqlitexyz/server/databases';
@@ -43,7 +44,9 @@ export class DatasetController {
 
     static uploadDatasetFile = async (req: Request, res: Response) => {
         const requestFile = (req as any).files;
-        const tmpFilePath = `${BASE_UPLOAD_PATH}/${requestFile.file.md5}`;
+        const hash = createHash('md5').update(`${ Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`).digest("hex");
+        const tmpFilePath = `${BASE_UPLOAD_PATH}/${hash}`;
+
         await requestFile.file.mv(tmpFilePath);
         res.status(201).send({ dbFilePath: requestFile.file.md5 });
     };
@@ -147,7 +150,16 @@ export class DatasetController {
         const datasetRepository = getRepository(Dataset);
         let dataset: Dataset;
         try {
-            dataset = await datasetRepository.findOneOrFail(id);
+            // load the dataset from the database
+            dataset = await datasetRepository.findOneOrFail(id, {
+                relations: ['metric'],
+            });
+            // delete the corresponding temp file
+            try {
+                unlinkSync(dataset.metric.dbPath);
+            } catch (err) {
+                console.error(err);
+            }
             datasetRepository.delete(id);
             //after all send a 204 (no content, but accepted) response
             res.status(204).send();

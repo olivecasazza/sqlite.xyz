@@ -4,6 +4,7 @@ import * as faker from 'faker';
 import { Dataset } from '../entity/dataset.model';
 import { Metric } from '../entity/metric.model';
 import { loadTestDb } from '../assets/test.db';
+import { createHash } from 'crypto';
 
 export class SeedTestData1573855208544 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
@@ -87,8 +88,10 @@ const createFakeMetrics = async (
     metric.dataset = dataset;
     // load the test db file
     const tables = await loadTestDb();
-    metric.dbPath = 'chinook.db';
+    metric.dbPath = createHash('md5').update(`${metric.id}`).digest("hex");
     metric.tables = tables;
     //save dataset to database
     return await queryRunner.manager.getRepository(Metric).save(metric);
 };
+
+

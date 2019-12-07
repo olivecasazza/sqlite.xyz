@@ -24,9 +24,7 @@ const startServer = async () => {
         app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
         // setup temp file storage
-        app.use(fileUpload({
-            useTempFiles : false,
-        }));
+        app.use(fileUpload());
 
         // setup application routes
         app.use('/api', routes);

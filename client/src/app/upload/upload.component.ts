@@ -37,6 +37,7 @@ export class UploadComponent implements OnInit {
     ngOnInit() {}
 
     async submitDataset() {
+
         const uploadResponse = await this.datasetService.uploadDataSetFile(
             this.form.value.file._files[0],
             this.name.value,
@@ -45,6 +46,8 @@ export class UploadComponent implements OnInit {
         if (!uploadResponse.dbFilePath) {
             return;
         }
+
+        console.dir(uploadResponse.dbFilePath)
 
         await this.datasetService.newDataset(
             this.name.value,
