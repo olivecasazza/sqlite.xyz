@@ -2,4 +2,5 @@
 .vscode/
 */node_modules/
 */dist/
-server/tmp/*
+server/databases/*
+server/databases/f2dd976ac500525eb862a008ba21609c
