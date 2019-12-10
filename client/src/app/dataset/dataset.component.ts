@@ -24,7 +24,6 @@ export class DatasetComponent {
     getDataset = async () => {
         const datasetId = this.route.snapshot.paramMap.get('datasetId');
         const dataset = await this.datasetService.fetchDataset(datasetId);
-        console.dir(dataset.metric);
         this.dataset.next(dataset);
     };
 

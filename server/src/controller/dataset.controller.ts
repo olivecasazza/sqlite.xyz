@@ -26,13 +26,12 @@ export class DatasetController {
 
             // try and create the cooresponding metrics
             const newMetric = new Metric();
-            newMetric.tables = await getDbTables(req.body.dbFilePath);
+            newMetric.tables = await DatasetController.getDbTables(req.body.dbFilePath);
             newMetric.dbPath = req.body.dbFilePath;
             newMetric.dataset = savedDataset as Dataset;
 
             // save the metrics to the server
             const savedMetric = await getRepository(Metric).save(newMetric);
-            console.dir(savedMetric.tables);
 
             // if no errors were thrown by
             // now creation was successfull
@@ -47,20 +46,8 @@ export class DatasetController {
 
     static uploadDatasetFile = async (req: Request, res: Response) => {
         const requestFile = (req as any).files;
-        const seed =
-            Math.random()
-                .toString(36)
-                .substring(2, 15) +
-            Math.random()
-                .toString(36)
-                .substring(2, 15);
-        const hash = createHash('md5')
-            .update(seed)
-            .digest('hex');
+        const hash = DatasetController.randomHash();
         const tmpFilePath = `${BASE_UPLOAD_PATH}/${hash}`;
-        console.dir('-------------');
-        console.dir(tmpFilePath);
-        console.dir('-------------');
         // save the file to our storage folder
         try {
             await requestFile.file.mv(tmpFilePath);
@@ -119,7 +106,6 @@ export class DatasetController {
 
     static getOneById = async (req: Request, res: Response) => {
         //  get the id from the url
-        console.dir('GETTING DATASET');
         const id: string = req.params.id;
         //  get the user from database
         const datasetRepository = getRepository(Dataset);
@@ -129,10 +115,6 @@ export class DatasetController {
                 select: ['id', 'name', 'description', 'createdAt', 'updatedAt'],
                 relations: ['metric'],
             });
-            console.dir('---------------');
-            console.dir(dataset.metric);
-            console.dir(await metricsRepository.findOne(dataset.metric.id));
-            console.dir('---------------');
             res.send(dataset);
         } catch (error) {
             res.status(404).send('dataset not found');
@@ -193,29 +175,42 @@ export class DatasetController {
             return res.status(404).send('dataset not found');
         }
     };
-}
 
-export const getDbTables = async (path): Promise<any> => {
-    try {
-        const filebuffer = await readFileSync(`${BASE_UPLOAD_PATH}/${path}`);
-        const SQL = await initSqlJs();
-        const db = new SQL.Database(filebuffer);
-        const q: [] = await db.exec(`
-        SELECT m.name as tableName, p.name as columnName
-        FROM sqlite_master m
-        left outer join pragma_table_info((m.name)) p on m.name <> p.name
-        order by tableName, columnName;`)[0].values;
-        let t = {};
-        q.forEach((e: any) => {
-            if (t[e[0]]) {
-                t[e[0]] = t[e[0]].concat(e[1].toString());
-            } else {
-                t[e[0]] = [[e[1]].toString()];
-            }
-        });
-        return t;
-    } catch (error) {
-        console.error(error);
-        throw error;
+    private static randomHash() {
+        const seed = Math.random()
+            .toString(36)
+            .substring(2, 15) +
+            Math.random()
+                .toString(36)
+                .substring(2, 15);
+        const hash = createHash('md5')
+            .update(seed)
+            .digest('hex');
+        return hash;
     }
-};
+
+    private static getDbTables = async (path): Promise<any> => {
+        try {
+            const filebuffer = await readFileSync(`${BASE_UPLOAD_PATH}/${path}`);
+            const SQL = await initSqlJs();
+            const db = new SQL.Database(filebuffer);
+            const q: [] = await db.exec(`
+            SELECT m.name as tableName, p.name as columnName
+            FROM sqlite_master m
+            left outer join pragma_table_info((m.name)) p on m.name <> p.name
+            order by tableName, columnName;`)[0].values;
+            let t = {};
+            q.forEach((e: any) => {
+                if (t[e[0]]) {
+                    t[e[0]] = t[e[0]].concat(e[1].toString());
+                } else {
+                    t[e[0]] = [[e[1]].toString()];
+                }
+            });
+            return t;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
+}

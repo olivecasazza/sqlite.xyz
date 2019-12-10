@@ -17,12 +17,10 @@ export class StateService {
 
     public async get(): Promise<AppState> {
         const currentState = await this.state.value;
-        console.log('[stateService] fetching state: ', currentState);
         return currentState;
     }
 
     public async set(newState: AppState) {
-        console.log('[stateService] setting state: ', newState);
         this.state.next(newState);
         localStorage.setItem('state', JSON.stringify(newState));
     }

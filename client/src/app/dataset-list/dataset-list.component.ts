@@ -37,7 +37,6 @@ export class DatasetListComponent {
 
     loadUserDatabases = async () => {
         const userDatasets = await this.datasetService.fetchDatabaseList();
-        console.dir(userDatasets);
         this.userDatasets.next(userDatasets);
     };
 }
