@@ -5,12 +5,12 @@ import * as helmet from 'helmet';
 import * as cors from 'cors';
 import routes from './routes/index';
 import 'reflect-metadata';
-import * as fileUpload from 'express-fileupload'
 import { User } from './entity/user.model';
 import { Dataset } from './entity/dataset.model';
 import { Metric } from './entity/metric.model';
+import * as fileUpload from 'express-fileupload';
 
-const PORT =  process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 
 const startServer = async () => {
     try {
@@ -38,11 +38,15 @@ const startServer = async () => {
         // call application middleware
         app.use(cors());
         app.use(helmet());
-        app.use(bodyParser.json({limit: '50mb'}));
-        app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+        app.use(bodyParser.json({ limit: '50mb' }));
+        app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
         // setup temp file storage
-        app.use(fileUpload());
+        app.use(
+            fileUpload({
+                createParentPath: true,
+            }),
+        );
 
         // setup application routes
         app.use('/api', routes);
@@ -52,7 +56,9 @@ const startServer = async () => {
             console.log(`Server started at http://localhost:${PORT}/api`);
         });
 
-        app.on('error', (error) => {throw error})
+        app.on('error', (error) => {
+            throw error;
+        });
     } catch (error) {
         console.error(`error starting database: ${error}`);
     }

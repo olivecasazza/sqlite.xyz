@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UploadComponent } from './upload/upload.component';
 import { MatDialog } from '@angular/material';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { StateService } from './services/state.service';
 
 @Component({
     selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnDestroy {
         private authService: AuthService,
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
-        private route: ActivatedRoute,
+        private state: StateService,
         private router: Router,
     ) {
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -32,12 +33,16 @@ export class AppComponent implements OnDestroy {
         this.isAuthenticated = this.authService.isLoggedIn.asObservable();
     }
 
-    openUploadModal = () => {
-        const dialogRef = this.dialog.open(UploadComponent);
-        dialogRef.afterClosed().subscribe((result) => {
-            const userId = this.route.snapshot.paramMap.get('username');
-            this.router.navigateByUrl(`${userId}`);
-        });
+    navigateToHome = async () => {
+        const state = await this.state.get();
+        const username = state.currentUser.username;
+        this.router.navigateByUrl(`${username}`);
+    };
+
+    navigateToUpload = async () => {
+        const state = await this.state.get();
+        const username = state.currentUser.username;
+        this.router.navigateByUrl(`${username}/upload`);
     };
 
     logout = () => this.authService.logout();

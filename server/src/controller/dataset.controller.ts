@@ -5,11 +5,10 @@ import { Dataset } from '../entity/dataset.model';
 import { Metric, Table } from '../entity/metric.model';
 import { User } from '../entity/user.model';
 import initSqlJs from 'sql.js';
-import { readFileSync, unlinkSync } from 'fs';
+import { readFile, unlinkSync, readFileSync } from 'fs';
 import { createHash } from 'crypto';
 
-const BASE_UPLOAD_PATH =
-    '/home/colin/Code/SDSU/sci_databases/sqlitexyz/server/databases';
+const BASE_UPLOAD_PATH = '/home/colincasazza/Code/sqlite.xyz/server/databases';
 
 export class DatasetController {
     static newDataset = async (req: Request, res: Response) => {
@@ -21,15 +20,19 @@ export class DatasetController {
             newDataset.user = await getRepository(User).findOne(
                 req.body.userId,
             );
-            const savedDataset = await getRepository(Dataset).save(newDataset);
+            const savedDataset = await getRepository(Dataset)
+                .save(newDataset)
+                .catch((e) => res.send(e));
 
             // try and create the cooresponding metrics
-            const tables = await getDbInfo(req.body.dbFilePath);
             const newMetric = new Metric();
-            newMetric.tables = tables;
+            newMetric.tables = await getDbTables(req.body.dbFilePath);
             newMetric.dbPath = req.body.dbFilePath;
-            newMetric.dataset = savedDataset;
+            newMetric.dataset = savedDataset as Dataset;
+
+            // save the metrics to the server
             const savedMetric = await getRepository(Metric).save(newMetric);
+            console.dir(savedMetric.tables);
 
             // if no errors were thrown by
             // now creation was successfull
@@ -44,11 +47,28 @@ export class DatasetController {
 
     static uploadDatasetFile = async (req: Request, res: Response) => {
         const requestFile = (req as any).files;
-        const hash = createHash('md5').update(`${ Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`).digest("hex");
+        const seed =
+            Math.random()
+                .toString(36)
+                .substring(2, 15) +
+            Math.random()
+                .toString(36)
+                .substring(2, 15);
+        const hash = createHash('md5')
+            .update(seed)
+            .digest('hex');
         const tmpFilePath = `${BASE_UPLOAD_PATH}/${hash}`;
-
-        await requestFile.file.mv(tmpFilePath);
-        res.status(201).send({ dbFilePath: requestFile.file.md5 });
+        console.dir('-------------');
+        console.dir(tmpFilePath);
+        console.dir('-------------');
+        // save the file to our storage folder
+        try {
+            await requestFile.file.mv(tmpFilePath);
+        } catch (error) {
+            console.error(error);
+            res.status(400).send('error saving file to server');
+        }
+        res.status(201).send({ dbFilePath: hash });
     };
 
     static downloadDataset = async (req: Request, res: Response) => {
@@ -99,14 +119,20 @@ export class DatasetController {
 
     static getOneById = async (req: Request, res: Response) => {
         //  get the id from the url
+        console.dir('GETTING DATASET');
         const id: string = req.params.id;
         //  get the user from database
         const datasetRepository = getRepository(Dataset);
+        const metricsRepository = getRepository(Metric);
         try {
             const dataset = await datasetRepository.findOneOrFail(id, {
                 select: ['id', 'name', 'description', 'createdAt', 'updatedAt'],
                 relations: ['metric'],
             });
+            console.dir('---------------');
+            console.dir(dataset.metric);
+            console.dir(await metricsRepository.findOne(dataset.metric.id));
+            console.dir('---------------');
             res.send(dataset);
         } catch (error) {
             res.status(404).send('dataset not found');
@@ -169,27 +195,25 @@ export class DatasetController {
     };
 }
 
-export const getDbInfo = async (path): Promise<Table[]> => {
+export const getDbTables = async (path): Promise<any> => {
     try {
-        const filebuffer = readFileSync(`${BASE_UPLOAD_PATH}/${path}`);
+        const filebuffer = await readFileSync(`${BASE_UPLOAD_PATH}/${path}`);
         const SQL = await initSqlJs();
         const db = new SQL.Database(filebuffer);
-
-        const query: [] = db.exec(`
+        const q: [] = await db.exec(`
         SELECT m.name as tableName, p.name as columnName
         FROM sqlite_master m
         left outer join pragma_table_info((m.name)) p on m.name <> p.name
         order by tableName, columnName;`)[0].values;
-
-        let tables = [];
-        query.forEach((e) => {
-            if (tables[e[0]]) {
-                tables[e[0]] = tables[e[0]].concat(e[1]);
+        let t = {};
+        q.forEach((e: any) => {
+            if (t[e[0]]) {
+                t[e[0]] = t[e[0]].concat(e[1].toString());
             } else {
-                tables[e[0]] = [e[1]];
+                t[e[0]] = [[e[1]].toString()];
             }
         });
-        return tables;
+        return t;
     } catch (error) {
         console.error(error);
         throw error;

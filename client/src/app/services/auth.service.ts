@@ -65,7 +65,7 @@ export class AuthService {
         // update state and view if successfull
         this.isLoggedIn.next(true);
         this.state.set({ currentUser: { ...loginRequest } });
-        this.router.navigate([`/${loginRequest.username}/`]);
+        this.router.navigateByUrl(`/${loginRequest.username}`);
     }
 
     async logout() {
