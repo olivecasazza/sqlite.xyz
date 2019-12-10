@@ -19,6 +19,13 @@ to install frontend dependencies...
 
 ### steps to run this application:
 
+
+docker can be used to run the full stack
+
+```docker-compose -f ./docker-compose.yaml up --build```
+
+OR
+
 start development database...
 
 ```cd <project_root> && docker-compose -f docker-compose.yaml up --build```
@@ -30,6 +37,7 @@ start development backend server...
 start development frontend server...
 
 ```cd <project_root>/client && npm run start```
+
 
 ---
 
