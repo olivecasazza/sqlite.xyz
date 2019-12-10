@@ -5,7 +5,7 @@
 ### dependencies
 
 - docker && docker-compose (or other mysql database)
-- nodejs
+- nodejs && npm
 
 to install backend dependencies...
 
