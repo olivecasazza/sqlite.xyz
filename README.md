@@ -46,6 +46,7 @@ start development frontend server...
 - [ ] add explore community databases view
 - [ ] add profile edit/delete view
 - [ ] add profile explore view
+- [ ] add sql.js sandbox view
 - [ ] add email verification
 - [ ] setup hosting on aws or gce
 
