@@ -43,10 +43,10 @@ start development frontend server...
 
 
 #### ALPHA
-- [ ] add email verification
-- [ ] setup hosting on aws or gce
 - [ ] add explore community databases view
 - [ ] add profile edit/delete view
 - [ ] add profile explore view
+- [ ] add email verification
+- [ ] setup hosting on aws or gce
 
 ---
