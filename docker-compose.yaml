@@ -1,5 +1,6 @@
 version: "3.3"
 services:
+
   db:
     container_name: db
     image: mysql:5.7.26
@@ -14,3 +15,27 @@ services:
       - "3306:3306"
     expose:
       - "3306"
+
+  client:
+    container_name: client
+    depends_on: 
+      - db
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    expose:
+      - "4200"
+
+  server:
+    container_name: server
+    depends_on: 
+      - client
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    expose: 
+      - "8000"

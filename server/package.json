@@ -37,6 +37,7 @@
    "scripts": {
       "start": "set debug=* && ts-node-dev --respawn --transpileOnly ./src/index.ts",
       "build": "tsc",
+      "migration:sync": "tsc && ts-node ./node_modules/typeorm/cli.js schema:sync",
       "migration:run": "tsc && ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:revert": "tsc && ts-node ./node_modules/typeorm/cli.js migration:revert"
    }

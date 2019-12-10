@@ -6,13 +6,31 @@ import * as cors from 'cors';
 import routes from './routes/index';
 import 'reflect-metadata';
 import * as fileUpload from 'express-fileupload'
+import { User } from './entity/user.model';
+import { Dataset } from './entity/dataset.model';
+import { Metric } from './entity/metric.model';
 
 const PORT =  process.env.PORT || 8000;
 
 const startServer = async () => {
     try {
         // connect to the mysql database
-        await createConnection();
+        const connection = await createConnection({
+            type: "mysql",
+            host: "db",
+            port: 3306,
+            username: "root",
+            password: "admin",
+            database: "db",
+            name: "default",
+            logging: true,
+            entities: [
+                User,
+                Dataset,
+                Metric
+            ]
+        });
+        await connection.synchronize();
 
         // create new express app
         const app = express();
