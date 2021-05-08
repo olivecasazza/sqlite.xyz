@@ -32,7 +32,7 @@
       "rxjs": "^6.5.3",
       "sql.js": "^1.0.1",
       "ts-node-dev": "^1.0.0-pre.43",
-      "typeorm": "^0.2.20"
+      "typeorm": "^0.2.25"
    },
    "scripts": {
       "start": "set debug=* && ts-node-dev --respawn --transpileOnly ./src/index.ts",
