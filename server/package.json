@@ -18,7 +18,7 @@
       "atob": "^2.1.2",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.18.1",
-      "class-validator": "^0.10.2",
+      "class-validator": "^0.14.0",
       "cors": "^2.8.5",
       "cross-blob": "^1.1.0",
       "crypto": "^1.0.1",
